@@ -1,4 +1,4 @@
-# Parallel Test Execution
+# SauceCon Parallel Testing Workshop
 
 This directory contains example scripts and dependencies for the Parallel Testing Workshop. Use these scripts to test your Sauce Labs authentication credentials, setup your automated testing environment, try out Sauce Labs features, and complete the in-class Selenium examples. Download the zip file or clone the entire directory to your local environment.
 
@@ -11,14 +11,23 @@ The code in these scripts is provided on an "AS-IS” basis without warranty of 
 ## Prerequisites
 
 These procedures will show you to set up a Selenium environment for Java. The scripts in this repository allow you run a simple automated test to validate your Selenium environment and your [saucelabs.com](https://app.saucelabs.com/login) account credentials.
-In order to complete these exercises you must complete the following prerequisite installation and configuration steps:
 
-* Install Git
-* Install IntelliJ
-* Install JDK
-* Setup Project
+In order to participate in the hands-on portion of the workshop you must complete the following prerequisite installation and configuration steps:
 
-Once your test environment is up and running, refer to the [exercise guides](exercise-guides/getting-started.md) to begin the exercises.
+* Install [Git](#install-git)
+* Install [IntelliJ (or another IDE)](#install-intellij)
+* Install [JDK](#install-the-jdk)
+* Install [Maven](#install-maven)
+
+
+[Project Setup](#setup-the-project) consists of the following steps:
+* [Import the Project](#import-the-project)
+* [Set Your Sauce Labs Credentials](#set-your-sauce-labs-credentials)
+* [Run a Maven Test](#run-a-maven-test) 
+
+***WARNING!*** In order to run the scripts and particpate in this workshop you must have a valid [Sauce Labs account](https://app.saucelabs.com/signup) with the relevant amount of [VM concurrency](https://saucelabs.com/pricing).
+
+<br />
 
 ### Install Git
 
@@ -45,6 +54,7 @@ integration/continuous development toolchain.
 2. Under **Downloads**, click on **Windows**.
 3. When the dialog opens asking if you want to allow the app to make changes to your device, click Yes.
 4. Follow the steps in the setup wizard to complete the installation. You should accept all the default settings.
+
 <br />
 
 ### Install IntelliJ
@@ -69,14 +79,13 @@ integration/continuous development toolchain.
 4. Under **Community**, click **Download**.
 5. When the download completes, double-click the `.exe` file to launch the installation wizard. 
 You should accept all the default settings.
+
 <br />
 
 ### Install the JDK
 
 The [Java SE Developer Kit](http://www.oracle.com/technetwork/java/javase/overview/index.html) lets you develop and 
 deploy Java applications on desktops and servers. It is needed to compile our test code.
-
-These examples were produced with the Java SE 11.0.2 (LTS) version.
 
 #### MacOSX:
 
@@ -93,75 +102,127 @@ Double-click the installer package to begin the installation.
 3. Click the download link for **Windows x64**.
 4. When the download completes, double-click the `.exe` file open the installer package.
 5. Double-click the installer package to begin the installation. You should accept all the default settings.
+
+<br />
+
+### Install Maven
+
+Maven is a build automation and project management tool use for managing project builds, dependencies, and documentation. It uses a project object model (pom.xml) to manage Java-based projects. With our use case, it's very useful for configuring and managing test suites.
+
+#### MacOSX:
+
+1. Go to Maven Apache website and [download](https://maven.apache.org/install.html) the following package: `apache-maven-<version>-bin.tar.gz`
+2. Extract the archive
+    ```
+    $ tar -xvf apache-maven-<version>-bin.zip
+    ```
+3. Add the `bin` directory of the extracted directory (`apache-maven-<version>`) to the `PATH` variable:
+    ```
+    $ export M2=$M2_HOME/bin
+    $ export PATH=$M2:$JAVA_HOME/bin:$PATH
+    ```
+    > ***WARNING!***: Make sure you've set `JAVA_HOME` othewise `mvn` commands won't run. For instructions on how to set `JAVA_HOME`, visit this [link](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html)
+    
+    > ***WARNING FOR UNIX USERS!***:
+    > If you have problems setting your environment variables, try the following options:
+    
+    > ##### Option 1:
+    Run the following commands in your terminal:
+    ```
+    $ launchctl setenv SAUCE_USERNAME $SAUCE_USERNAME
+    $ launchctl setenv SAUCE_ACCESS_KEY $SAUCE_ACCESS_KEY
+    ```
+    > ##### Option 2:
+    Refresh your bash session by running the following command: 
+    ```
+    $ source ~/.bashrc
+    ``` 
+    > ##### Option 3:
+    Update **`.bash_profile`** to globally set environment variables. For example your file may look something like this:
+    ```
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    export PATH="$PATH:/usr/local/bin"
+    export PATH=$M2:$JAVA_HOME/bin:$PATH
+    export M2_HOME=/usr/local/apache-maven-<version>
+    export M2=$M2_HOME/bin
+    export SAUCE_USERNAME="xxx"
+    export SAUCE_ACCESS_KEY="XXXXXXX-XXXX-XXXX-XXXXXXXXXXX"
+    ```
+
+4. Check to see if maven installed correctly:
+    ```
+    $ mvn -version
+    ```
+
+#### Windows:
+
+1. Go to Maven Apache website and [download](https://maven.apache.org/install.html) the following package: `apache-maven-<version>-bin.zip`
+2. Unpack the archive using an archive tool (for example WinZip)
+3. Add the unpacked distribution’s `bin` directory to your user `PATH` environment variable by:
+    1. Open up the system properties (WinKey + Pause) 
+    2. Select the **Advanced** tab, and the **Environment Variables** button
+    3. Add/Select the **`PATH`** variable in the user variables with the value:
+        ```
+        C:\Program Files\apache-maven-3.6.0\bin
+        ```
+4. Open a new command prompt (Winkey + R then type cmd) and run `mvn -v` to verify the installation.
+
 <br />
 
 ### Setup the Project
 
-#### Ensure IntelliJ is Correctly Configured:
+#### Import the Project
 
-1. **Run Hello World**
-    * In IntelliJ, select **File > New > Project.**
-    * In the **New Project** dialog window, select **Java** (default).
-    * IntelliJ should automatically detect the JDK and appear in the **Project SDK** field. If you don't see the JDK, select **New** and navigate to where you installed the JDK. 
-    * Select **Next**, then select **Create project from template > Java Hello World.**
-    * Name the project **SauceDemo** and select **Finish.** 
-        > you can also decide whether or not to display IntelliJ tool tips.
-    * From the main toolbar, select **Run > Run 'Main'**.
-        > In the main console at the bottom the words ` Hello World!` should appear, along with ` Process finished with exit code 0`. 
-
-2. **Configure the Selenium Standalone Server**
-    * Open a browser and navigate to the [SeleniumHQ Downloads page](https://www.seleniumhq.org/download/).
-    * Under **Selenium Standalone Server** select the version link to download the file (extract/unzip the archive if necessary).
-        > You can download the package to any directory, just ensure you remember the location when configuring Selenium in IntelliJ.
-    * In IntelliJ, select **File > Project Structure > Modules.**
-    * Select the **Dependencies** tab and navigate to the bottom of the window.
-    * Select the **+** symbol, followed by **JARs or Directories.**
-    * Navigate to the location of the **Selenium .jar** file and select **Open.**
-    * Select **Apply** followed by **OK.**
-    * In the **Project** pane of IntelliJ, select the triangle next to **External Libraries**
-        > You should see the Selenium Standalone Server `.jar` file
-
-3. **Configure the TestNG Framework**
-    * In IntelliJ, select **File > Project Structure > Modules.**
-    * Select the **Dependecies** tab and navigate to the bottom of the window.
-    * elect the **+** symbol, followed by **JARs or Directories.**
-    * Navigate to `Applications/IntelliJ IDEA CE/Contents/plugins/lib/`
-    * Select both `testng-plugin.jar` and `testng.jar`, select **Apply > OK.**
-    * In the **Project** pane of IntelliJ, select the triangle next to **External Libraries**
-        > You should see the TestNG `.jar` files
-        
-#### Run The Sample Project in IntelliJ:
-4. **Add the Test Script**
-    * In the **Project** pane of IntelliJ, right-click on **src,** select **New > Java Class.**
-    * Name the class ` InstantJavaTestNGTest `, then select **OK.**
-    * Download the test script from [here](https://github.com/saucelabs-training/demo-java/blob/master/InstantSauceTest.java).
-    * In IntelliJ, delete any code from your default class and paste in the test script
-        >To run tests on Sauce Labs, you must aquire your user name and access key 
-
-5. **Configuring your Sauce Labs Credentials**
-    * Login to [www.saucelabs.com](https://app.saucelabs.com/login).
-    > If you don't have a Sauce Labs account, create a free trial [here](https://signup.saucelabs.com/signup/trial)
-    * In the upper-right corner, select the down arrow next to your name.
-    * In the drop down menu, select **User Settings.**
-    * Copy and paste both your **`Username`** and **`Access Key`** to your clipboard
-    * In IntelliJ, replace the below strings with your **`Username`** and **`Access Key`**
-        ```
-        String sauceUserName = "YOUR USER NAME";
-        String sauceAccessKey = "YOUR ACCESS KEY";
-        ```
-6. **Running the Test on Sauce Labs**
-    * In IntelliJ, select the **`InstantJavaTestNGTest`** class, right-click anywhere, select **`Run shouldOpenSafari()`**, and check the console at the bottom of the window.
-    * You should see the following in the IntelliJ console:
+1. Create a directory on your machine.
+2. Clone this repostitory into said directory.
     ```
-    [TestNG] Running:
-        /Users/{user}/Library/Caches/IntelliJIdea2018.3/temp-testng-customsuite.xml
-
+    $ git clone https://github.com/saucelabs-training/saucecon19-parallel-workshop.git
     ```
-    * In the Sauce Labs Dashboard, select the **Automated Tests** tab.
-        > The `shouldOpenSafari()` test should appear running.
-    * Once the test completes, select the link for **`shouldOpenSafari()`** check the **Commands** tab to see all `HTTP` requests in screenshot form.
-    * In the **Watch** tab, you can click on the play button to see a full video of the test.
-    * Finally, in IntelliJ you'll see a green check mark next to a message that read something like so:
-        ```
-        Test passed: 1 of 1 test - 17s 750ms
-        ```
+2. Import the project into your IntelliJ (or IDE of your choice) as a **Maven Project**.
+3. Click through the prompts, and confirm when it asks to **Import from Sources**
+4. Choose the **saucedemo-parallel** directory as the **root** directory of the project.
+
+#### Set Your Sauce Labs Credentials
+1. Open a Terminal window (command prompt for Windows) and set your Sauce Labs Environment variables:   
+   ###### Mac OSX:
+   ```
+   $ export SAUCE_USERNAME="your saucelabs username"
+   $ export SAUCE_ACCESS_KEY="your saucelabs API access Key"
+   ```
+   ###### Windows:
+   ```
+   > set SAUCE_USERNAME="your saucelabs username"
+   > set SAUCE_ACCESS_KEY="your saucelabs API access Key"
+   ```
+   > To set an environment variables permanently in Windows, you must append it to the `PATH` variable.
+   
+   > Go to **Control Panel > System > Windows version > Advanced System Settings > Environment Variables > System Variables > Edit > New**
+   
+   > Then set the "Name" and "Value" for each variable
+   
+9. Test the environment variables
+    ###### Mac OSX:
+    ```
+    $ echo $SAUCE_USERNAME
+    $ echo $SAUCE_ACCESS_KEY
+    ```
+    ###### Windows:
+    ```
+    > echo %SAUCE_USERNAME%
+    > echo %SAUCE_ACCESS_KEY%
+    ```
+
+#### Run a Maven Test
+
+1. Run the following command to update any package dependencies:
+    ```
+    $ mvn dependency:resolve
+    ```
+2. Then run the following command to compile your test code:
+    ```
+    $ mvn test-compile
+    ```
+3. Finally, run the following test:
+    ```
+    $ mvn test -Dtest=LoginTest
+    ```

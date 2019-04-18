@@ -122,32 +122,6 @@ Maven is a build automation and project management tool use for managing project
     $ export PATH=$M2:$JAVA_HOME/bin:$PATH
     ```
     > ***WARNING!***: Make sure you've set `JAVA_HOME` othewise `mvn` commands won't run. For instructions on how to set `JAVA_HOME`, visit this [link](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html)
-    
-    > ***WARNING FOR UNIX USERS!***:
-    > If you have problems setting your environment variables, try the following options:
-    
-    > ##### Option 1:
-    Run the following commands in your terminal:
-    ```
-    $ launchctl setenv SAUCE_USERNAME $SAUCE_USERNAME
-    $ launchctl setenv SAUCE_ACCESS_KEY $SAUCE_ACCESS_KEY
-    ```
-    > ##### Option 2:
-    Refresh your bash session by running the following command: 
-    ```
-    $ source ~/.bashrc
-    ``` 
-    > ##### Option 3:
-    Update **`.bash_profile`** to globally set environment variables. For example your file may look something like this:
-    ```
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    export PATH="$PATH:/usr/local/bin"
-    export PATH=$M2:$JAVA_HOME/bin:$PATH
-    export M2_HOME=/usr/local/apache-maven-<version>
-    export M2=$M2_HOME/bin
-    export SAUCE_USERNAME="xxx"
-    export SAUCE_ACCESS_KEY="XXXXXXX-XXXX-XXXX-XXXXXXXXXXX"
-    ```
 
 4. Check to see if maven installed correctly:
     ```
@@ -183,16 +157,17 @@ Maven is a build automation and project management tool use for managing project
 4. Choose the **saucedemo-parallel** directory as the **root** directory of the project.
 
 #### Set Your Sauce Labs Credentials
-1. Open a Terminal window (command prompt for Windows) and set your Sauce Labs Environment variables:   
+1. Copy your Sauce Labs **username** and **accessKey** in the [User Settings](https://app.saucelabs.com/user-settings) section of the [Sauce Labs Dashboard](https://app.saucelabs.com/dashboard/builds).
+2. Open a Terminal window (command prompt for Windows) and set your Sauce Labs Environment variables:   
    ###### Mac OSX:
    ```
-   $ export SAUCE_USERNAME="your saucelabs username"
-   $ export SAUCE_ACCESS_KEY="your saucelabs API access Key"
+   $ export SAUCE_USERNAME="username"
+   $ export SAUCE_ACCESS_KEY="accessKey"
    ```
    ###### Windows:
    ```
-   > set SAUCE_USERNAME="your saucelabs username"
-   > set SAUCE_ACCESS_KEY="your saucelabs API access Key"
+   > set SAUCE_USERNAME="username"
+   > set SAUCE_ACCESS_KEY="accesKey"
    ```
    > To set an environment variables permanently in Windows, you must append it to the `PATH` variable.
    
@@ -210,6 +185,32 @@ Maven is a build automation and project management tool use for managing project
     ```
     > echo %SAUCE_USERNAME%
     > echo %SAUCE_ACCESS_KEY%
+    ```
+    
+    > ***WARNING FOR UNIX USERS!***:
+    > If you have problems setting your environment variables, try the following options:
+    
+    > ##### Option 1:
+    Run the following commands in your terminal:
+    ```
+    $ launchctl setenv SAUCE_USERNAME $SAUCE_USERNAME
+    $ launchctl setenv SAUCE_ACCESS_KEY $SAUCE_ACCESS_KEY
+    ```
+    > ##### Option 2:
+    Refresh your bash session by running the following command: 
+    ```
+    $ source ~/.bashrc
+    ``` 
+    > ##### Option 3:
+    Update **`.bash_profile`** to globally set environment variables. For example your file may look something like this:
+    ```
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    export PATH="$PATH:/usr/local/bin"
+    export PATH=$M2:$JAVA_HOME/bin:$PATH
+    export M2_HOME=/usr/local/apache-maven-<version>
+    export M2=$M2_HOME/bin
+    export SAUCE_USERNAME="xxx"
+    export SAUCE_ACCESS_KEY="XXXXXXX-XXXX-XXXX-XXXXXXXXXXX"
     ```
 
 #### Run a Maven Test

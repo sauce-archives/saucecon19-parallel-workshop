@@ -45,6 +45,7 @@ public class BaseWebDriverTest {
         sauceOptions.setCapability("accessKey", accesskey);
         sauceOptions.setCapability("seleniumVersion", "3.141.59");
         sauceOptions.setCapability("name", methodName);
+        sauceOptions.setCapability("build", "saucecon19-parallel-testing-workshop");
 
         //Assign the Sauce Options to the base capabilities
         capabilities.setCapability("sauce:options", sauceOptions);

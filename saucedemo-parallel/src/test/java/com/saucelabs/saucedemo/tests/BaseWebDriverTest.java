@@ -74,7 +74,7 @@ public class BaseWebDriverTest {
      * @param beforeMethod
      * @return TestNG's preferred Object[][] structure, containing browser, version, and platform information
      */
-    @DataProvider(name = "sauceBrowsers", parallel = false)
+    @DataProvider(name = "sauceBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method beforeMethod) {
         RunType runType = RunType.SAUCE;
         return new Object[][]{

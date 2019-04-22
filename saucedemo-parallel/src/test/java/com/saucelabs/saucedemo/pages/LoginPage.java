@@ -1,13 +1,14 @@
 package com.saucelabs.saucedemo.pages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
-    private static String url = "https://www.saucedemo.com/";
-    private WebDriver driver;
+    private String url = "https://www.saucedemo.com/";
+
+    public String getUrl() {
+        return url;
+    }
 
     @FindBy(id = "user-name")
     private WebElement usernameInput;
@@ -21,14 +22,10 @@ public class LoginPage {
     @FindBy(id = "login_credentials")
     private WebElement credentialsInfo;
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
+    @FindBy(className = "svg-inline--fa")
+    private WebElement epicSadFace;
 
-    public void visitPage() {
-        driver.get(url);
-    }
+    public LoginPage() {}
 
     public boolean isOnPage() {
         return credentialsInfo.isDisplayed();
@@ -38,5 +35,9 @@ public class LoginPage {
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
         submitButton.click();
+    }
+
+    public boolean epicSadFaceDisplayed() {
+        return epicSadFace.isDisplayed();
     }
 }

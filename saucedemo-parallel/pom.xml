@@ -2,14 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sauce-project</artifactId>
-    <groupId>com.yourcompany</groupId>
+    <artifactId>saucecon19-parallel-workshop</artifactId>
+    <groupId>com.saucelabs</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>sauce_quickstart</name>
-    <description>A sample Maven project that demonstrates how to integrate Sauce OnDemand with WebDriver tests
-        that run using TestNG
-    </description>
+    <description>A sample Maven project that demonstrates Sauce Labs Selenium tests using TestNG</description>
 
     <dependencies>
         <dependency>
@@ -57,12 +55,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12.4</version>
-                <configuration>
-                    <threadCount>40</threadCount>
-                    <parallel>methods</parallel>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                </configuration>
-            </plugin>
+           </plugin>
         </plugins>
     </build>
 </project>

@@ -79,22 +79,6 @@ public class BaseWebDriverTest {
         RunType runType = RunType.SAUCE;
         return new Object[][]{
                 new Object[]{"chrome", "73.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "72.0", "Windows 10", runType},
-                new Object[]{"chrome", "71.0", "Windows 7", runType},
-                new Object[]{"chrome", "70.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "70.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "71.0", "Windows 10", runType},
-                new Object[]{"chrome", "72.0", "Windows 7", runType},
-                new Object[]{"chrome", "73.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "72.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "73.0", "Windows 10", runType},
-                new Object[]{"chrome", "70.0", "Windows 7", runType},
-                new Object[]{"chrome", "71.0", "macOS 10.14", runType},
-                new Object[]{"firefox", "66.0", "Windows 7", runType},
-                new Object[]{"firefox", "65.0", "Windows 10", runType},
-                new Object[]{"firefox", "64.0", "macOS 10.14", runType},
-                new Object[]{"firefox", "63.0", "macOS 10.13", runType},
-                new Object[]{"firefox", "62.0", "macOS 10.12", runType},
                 new Object[]{"firefox", "61.0", "macOS 10.13", runType},
         };
     }

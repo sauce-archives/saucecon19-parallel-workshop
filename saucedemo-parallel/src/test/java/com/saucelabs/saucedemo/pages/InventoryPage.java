@@ -1,58 +1,55 @@
 package com.saucelabs.saucedemo.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class InventoryPage {
-    private WebDriver driver;
-
-    public InventoryPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
-
-    @FindBy(className = "header_label")
-    private WebElement headerLabel;
-
-    @FindBy(className = "product_sort_container")
-    private WebElement sortList;
-
-    @FindBy(className ="add-to-cart-button")
-    private WebElement addToCart;
-
-    @FindBy(className ="remove-from-cart-button")
-    private WebElement removeFromCartButton;
-
-    @FindBy(className = "shopping_cart_badge")
-    private WebElement shoppingCartBadge;
+    InventoryPage() {}
 
     @FindBy(className = "inventory_container")
     private WebElement inventoryContainer;
 
-    public boolean isOnPage() {
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header_label")));
-        return headerLabel.isDisplayed();
+    @FindBy(className = "inventory_list")
+    private WebElement inventoryList;
+
+    @FindBy(className = "header_secondary_container")
+    private WebElement inventoryHeader;
+
+    /**
+     * Returns the Div containing the item specified (zero-indexed)
+     * @param itemNumber
+     * @return
+     */
+    private WebElement getItemNumber(int itemNumber) {
+        return inventoryList.findElement(By.cssSelector(String.format("div.inventory_item:nth-of-type(%d)", itemNumber)));
     }
 
-    public void addItemToCart() {
+    public String getItemName(int itemNumber) {
+        WebElement itemName = getItemNumber(itemNumber).findElement(By.className("inventory_item_name"));
+        return itemName.getText();
+    }
+
+    public String getItemDescription(int itemNumber) {
+        WebElement itemDesc = getItemNumber(itemNumber).findElement(By.className("inventory_item_desc"));
+        return itemDesc.getText();
+    }
+
+    public String getItemPrice(int itemNumber) {
+        WebElement itemPrice = getItemNumber(itemNumber).findElement(By.className("inventory_item_price"));
+        return itemPrice.getText();
+    }
+
+    public void addItemToCart(int itemNumber) {
+        WebElement addToCart = getItemNumber(itemNumber).findElement(By.className("btn_primary"));
         addToCart.click();
     }
 
-    public void removeItemFromCart() {
-        removeFromCartButton.click();
+    public boolean isOnPage() {
+        return inventoryHeader.isDisplayed();
     }
 
-    public int getNumberOfItemsInCart() {
-        return Integer.valueOf(shoppingCartBadge.getText());
-    }
-
-    public int getItemsInPage() {
-        return Integer.valueOf(inventoryContainer.getText());
+    public boolean itemAddedToCart(int itemNumber) {
+        return getItemNumber(itemNumber).findElement(By.className("btn_secondary")).isDisplayed();
     }
 }

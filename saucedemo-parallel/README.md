@@ -1,4 +1,20 @@
-## Java-TestNg-Selenium
+## saucedemo-parallel Workshop Example
+
+This project is the base code for a workshop prepared and given by Sauce Labs, inc. It consists of 
+several branches, each of which shows a particular example of a pattern or anti-pattern, and which 
+illustrates a particular aspect of parallel test execution.
+
+These examples are loosely based on the Java-TestNG-Selenium sample framework offered [here](https://github.com/saucelabs-sample-test-frameworks/Java-TestNG-Selenium).
+
+The branches are:
+
+* serial - an anti-pattern, illustrating TestNG execution with no parallelism
+* parallel_provider - an improvement, which illustrates parallelism via a Data Provider
+* parallel_methods - a more preferred method, allowing more control over threading by using parallel methods
+* single-browser-config - Sauce Labs' preferred method of running in parallel, removing the Data Provider, and allowing config from System Properties 
+* master (which is the same as the 'single-browser-config' branch, the TestNG execution method preferred by Sauce Labs)
+
+
 [![Travis Status](https://travis-ci.org/saucelabs-sample-test-frameworks/Java-TestNG-Selenium.svg?branch=master)](https://travis-ci.org/saucelabs-sample-test-frameworks/Java-TestNG-Selenium)
 
 This code is provided on an "AS-IS” basis without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement. Your tests and testing environments may require you to modify this framework. Issues regarding this framework should be submitted through GitHub. For questions regarding Sauce Labs integration, please see the Sauce Labs documentation at https://wiki.saucelabs.com/. This framework is not maintained by Sauce Labs Support.
@@ -15,7 +31,7 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
     * In the terminal export your Sauce Labs Credentials as environmental variables:
     ```
     $ export SAUCE_USERNAME=<your Sauce Labs username>
-	$ export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
+    $ export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
     ```
 3. Project Dependencies
 	* Check that Packages are available
@@ -30,16 +46,49 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
 ### Running Tests
 
 Tests in Parallel:
-	```
-	$ mvn test
-	```
 
-[Sauce Labs Dashboard](https://saucelabs.com/beta/dashboard)
+For all branches *other than* 'single-browser-config', execute tests using this command:
+
+	$ mvn clean test
+	
+For the 'single-browser-config' branch, execute tests using this command:
+
+    $ mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="macOS 10.14" &
+
+Note that you can string these together in a series, like the following. It is recommended to use your CI system
+(Jenkins, TeamCity, etc) to send these commands as you see fit.
+
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="macOS 10.14" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="Windows 7" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="macOS 10.14" $
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="Windows 7" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="macOS 10.14" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="Windows 7" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="macOS 10.14" $
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="Windows 7" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 10" $
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 7" $
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=65.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=65.0 -DplatformName="Windows 7" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=64.0 -DplatformName="macOS 10.14" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=64.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=63.0 -DplatformName="macOS 10.13" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=62.0 -DplatformName="macOS 10.12" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=62.0 -DplatformName="Windows 10" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=61.0 -DplatformName="macOS 10.13" &
+    mvn clean test -DbrowserName=firefox -DbrowserVersion=61.0 -DplatformName="Windows 7" &
+
+
+Once your tests have executed, check the [Sauce Labs Dashboard](https://app.saucelabs.com/dashboard) for detailed results.
 
 ### Advice/Troubleshooting
-1. It may be useful to use a Java IDE such as IntelliJ or Eclipse to help troubleshoot potential issues. 
-2. There may be additional latency when using a remote webdriver to run tests on Sauce Labs. Timeouts or Waits may need to be increased.
-    * [Selenium tips regarding explicit waits](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Explicit+Waits)
+1. A Java IDE such as IntelliJ or Eclipse is recommended to help troubleshoot potential issues. 
+2. There may be additional latency when using a remote webdriver to run tests on Sauce Labs.
+    * [Selenium tips regarding Waits](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Explicit+Waits)
 
 ### Resources
 ##### [Sauce Labs Documentation](https://wiki.saucelabs.com/)
@@ -49,6 +98,3 @@ Tests in Parallel:
 ##### [TestNg Documentation](http://testng.org/javadocs/index.html)
 
 ##### [Java Documentation](https://docs.oracle.com/javase/7/docs/api/)
-
-##### Stack Overflow:
-* [Related Stack Overflow Threads](http://stackoverflow.com/questions/27355003/advise-on-hierarchy-for-element-locators-in-selenium-webdriver)

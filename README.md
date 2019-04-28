@@ -25,7 +25,14 @@ In order to participate in the hands-on portion of the workshop you must complet
 * [Set Your Sauce Labs Credentials](#set-your-sauce-labs-credentials)
 * [Run a Maven Test](#run-a-maven-test) 
 
-***WARNING!*** In order to run the scripts and particpate in this workshop you must have a valid [Sauce Labs account](https://app.saucelabs.com/signup) with the relevant amount of [VM concurrency](https://saucelabs.com/pricing).
+***WARNING!*** In order to run the scripts and participate in this workshop you must have a valid 
+[Sauce Labs account](https://app.saucelabs.com/signup) with the relevant amount of 
+[VM concurrency](https://saucelabs.com/pricing). 
+
+For this workshop, we will run between 1 and 40 threads simultaneously,
+and while we understand that a free account won't give you enough concurrency to run these directly, the instructor
+will adequately demonstrate the the system behavior. As long as you can execute even a single test against the Sauce
+Labs platform with this code, you can have confidence that the code will scale to as many threads as you care to execute. 
 
 <br />
 
@@ -86,6 +93,8 @@ You should accept all the default settings.
 
 The [Java SE Developer Kit](http://www.oracle.com/technetwork/java/javase/overview/index.html) lets you develop and 
 deploy Java applications on desktops and servers. It is needed to compile our test code.
+
+This project requires JDK version 1.8 at the least.
 
 #### MacOSX:
 
@@ -148,7 +157,7 @@ Maven is a build automation and project management tool use for managing project
 #### Import the Project
 
 1. Create a directory on your machine.
-2. Clone this repostitory into said directory.
+2. Clone this repository into said directory.
     ```
     $ git clone https://github.com/saucelabs-training/saucecon19-parallel-workshop.git
     ```

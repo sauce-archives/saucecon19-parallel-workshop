@@ -1,5 +1,6 @@
 package com.saucelabs.saucedemo.tests;
 
+import com.saucelabs.saucedemo.pages.SauceDemoNavigation;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.BeforeMethod;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -24,6 +25,7 @@ public class BaseWebDriverTest {
     // ThreadLocal variable containing WebDriver instance and the Sauce Job Id
     private ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
     private ThreadLocal<String> sessionId = new ThreadLocal<>();
+    protected ThreadLocal<SauceDemoNavigation> navigation = new ThreadLocal<>();
 
     public enum RunType { LOCAL, SAUCE }
 
@@ -32,6 +34,9 @@ public class BaseWebDriverTest {
      */
     protected WebDriver getWebDriver() {
         return webDriver.get();
+    }
+    protected SauceDemoNavigation getNavigation() {
+        return navigation.get();
     }
 
     private void createSauceDriver(MutableCapabilities capabilities, String methodName) {
@@ -68,66 +73,24 @@ public class BaseWebDriverTest {
         webDriver.set(new ChromeDriver((ChromeOptions) capabilities));
     }
 
-    /**
-     * DataProvider that sets the browser combinations to be used.
-     *
-     * @param beforeMethod
-     * @return TestNG's preferred Object[][] structure, containing browser, version, and platform information
-     */
-    @DataProvider(name = "sauceBrowsers", parallel = false)
-    public static Object[][] sauceBrowserDataProvider(Method beforeMethod) {
-        RunType runType = RunType.SAUCE;
-        return new Object[][]{
-                new Object[]{"chrome", "73.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "72.0", "Windows 10", runType},
-                new Object[]{"chrome", "71.0", "Windows 7", runType},
-                new Object[]{"chrome", "70.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "70.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "71.0", "Windows 10", runType},
-                new Object[]{"chrome", "72.0", "Windows 7", runType},
-                new Object[]{"chrome", "73.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "72.0", "macOS 10.14", runType},
-                new Object[]{"chrome", "73.0", "Windows 10", runType},
-                new Object[]{"chrome", "70.0", "Windows 7", runType},
-                new Object[]{"chrome", "71.0", "macOS 10.14", runType},
-                new Object[]{"firefox", "66.0", "Windows 7", runType},
-                new Object[]{"firefox", "65.0", "Windows 10", runType},
-                new Object[]{"firefox", "64.0", "macOS 10.14", runType},
-                new Object[]{"firefox", "63.0", "macOS 10.13", runType},
-                new Object[]{"firefox", "62.0", "macOS 10.12", runType},
-                new Object[]{"firefox", "61.0", "macOS 10.13", runType},
-        };
-    }
+    @BeforeMethod
+    protected void createDriver(Method method) {
+        String browserName = System.getProperty("browserName") == null ? "chrome" : System.getProperty("browserName");
+        String browserVersion = System.getProperty("browserVersion") == null ? "73.0" : System.getProperty("browserVersion");
+        String platformName = System.getProperty("platformName") == null ? "macOS 10.14" : System.getProperty("platformName");
+        String methodName = method.getName();
+        RunType runType = System.getProperty("runType") == null ? RunType.SAUCE : RunType.valueOf(System.getProperty("runType"));
 
-    @DataProvider(name = "localBrowsers")
-    public static Object[][] localBrowserDataProvider(Method beforeMethod) {
-        RunType runType = RunType.LOCAL;
-        return new Object[][]{
-                new Object[]{"chrome", "latest-1", "Windows 10", runType},
-        };
-    }
-
-    /**
-     * Constructs a new {@link RemoteWebDriver} instance which is configured to use the capabilities defined by the browser,
-     * version and os parameters, and which is configured to run against ondemand.saucelabs.com, using
-     * the username and access key populated by the {@link #authentication} instance.
-     *
-     * @param browser Represents the browser to be used as part of the test run.
-     * @param browserVersion Represents the version of the browser to be used as part of the test run.
-     * @param platformName Represents the operating system to be used as part of the test run.
-     * @param methodName Represents the name of the test case that will be used to identify the test on Sauce.
-     */
-    protected void createDriver(String browser, String browserVersion, String platformName, String methodName, RunType runType) {
         this.runType = runType;
         //Set up the ChromeOptions object, which will store the capabilities
         MutableCapabilities capabilities = new MutableCapabilities();
 
-        if (browser.equals("chrome")) {
+        if (browserName.equals("chrome")) {
             ChromeOptions caps = new ChromeOptions();
             caps.setExperimentalOption("w3c", true);
             capabilities = caps;
         }
-        else if (browser.equals("firefox")) {
+        else if (browserName.equals("firefox")) {
             capabilities = new FirefoxOptions();
         }
 
@@ -142,6 +105,8 @@ public class BaseWebDriverTest {
                 createSauceDriver(capabilities, methodName);
                 break;
         }
+
+        navigation.set(new SauceDemoNavigation(getWebDriver()));
     }
 
     //Method that gets invoked after test

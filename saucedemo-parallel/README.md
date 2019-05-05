@@ -55,32 +55,15 @@ For the 'single-browser-config' branch, execute tests using this command:
 
     $ mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="macOS 10.14" &
 
-Note that you can string these together in a series, like the following. It is recommended to use your CI system
-(Jenkins, TeamCity, etc) to send these commands as you see fit.
+Note that you can string these together in a series, like the following. Note that this is for demonstration purposes only: it is recommended to use your CI system (Jenkins, TeamCity, etc) to send these commands one at a time. 
 
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="macOS 10.14" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="Windows 7" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="macOS 10.14" $
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="Windows 7" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="macOS 10.14" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=71.0 -DplatformName="Windows 7" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="macOS 10.14" $
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=chrome -DbrowserVersion=70.0 -DplatformName="Windows 7" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 10" $
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 7" $
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=65.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=65.0 -DplatformName="Windows 7" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=64.0 -DplatformName="macOS 10.14" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=64.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=63.0 -DplatformName="macOS 10.13" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=62.0 -DplatformName="macOS 10.12" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=62.0 -DplatformName="Windows 10" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=61.0 -DplatformName="macOS 10.13" &
-    mvn clean test -DbrowserName=firefox -DbrowserVersion=61.0 -DplatformName="Windows 7" &
+    mvn test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="macOS 10.14" &
+    mvn test -DbrowserName=chrome -DbrowserVersion=73.0 -DplatformName="Windows 10" &
+    mvn test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="macOS 10.14" $
+    mvn test -DbrowserName=chrome -DbrowserVersion=72.0 -DplatformName="Windows 10" &
+    mvn test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 10" $
+    mvn test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="Windows 7" $
+    mvn test -DbrowserName=firefox -DbrowserVersion=66.0 -DplatformName="macOS 10.14" $
 
 
 Once your tests have executed, check the [Sauce Labs Dashboard](https://app.saucelabs.com/dashboard) for detailed results.

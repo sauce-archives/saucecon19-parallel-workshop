@@ -46,6 +46,14 @@ ENV GRADLE_USER_HOME /cache
 ENV PATH $PATH:$GRADLE_HOME/bin
 VOLUME $GRADLE_USER_HOME
 
+# Download Sauce Connect
+RUN wget https://saucelabs.com/downloads/sc-4.4.12-linux.tar.gz \
+  && tar -xzf sc-4.4.12-linux.tar.gz
+
+# Launch Sauce Connect Tunnel (requires ENV variables)
+# RUN cd sc-* \
+#  && bin/sc --pidfile /tmp/sc.pid1 -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i demo-java-tunnel --no-remove-colliding-tunnels --se-port 4445
+
 # Copying project files
 COPY . $USER_HOME_DIR/
 WORKDIR $USER_HOME_DIR/saucedemo-parallel
